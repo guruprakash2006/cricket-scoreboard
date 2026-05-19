@@ -1,6 +1,10 @@
 import { useState } from "react";
 
 function App() {
+  // RESPONSIVE
+  const isMobile =
+    window.innerWidth < 768;
+
   // TEAM TEMPLATE
   const createTeam = (name) => ({
     name,
@@ -25,7 +29,7 @@ function App() {
   const [innings, setInnings] =
     useState(1);
 
-  // POPUP STATES
+  // EXTRA POPUP
   const [showExtraPopup, setShowExtraPopup] =
     useState(false);
 
@@ -112,7 +116,7 @@ function App() {
         event = ".";
       }
 
-      // NO RUN
+      // NR
       else if (type === "NR") {
         balls += 1;
         event = "NR";
@@ -128,9 +132,9 @@ function App() {
       // WIDE
       else if (type === "WD") {
         /*
-          0 -> no wide run
+          0 -> no run wide
           1 -> normal wide
-          2 -> wide + 1 run
+          2 -> wide + 1
         */
 
         score += runs;
@@ -150,9 +154,9 @@ function App() {
       // NO BALL
       else if (type === "NB") {
         /*
-          0 -> no no-ball run
-          1 -> normal no-ball
-          2 -> no-ball + 1 run
+          0 -> no run nb
+          1 -> normal nb
+          2 -> nb + 1
         */
 
         score += runs;
@@ -204,35 +208,60 @@ function App() {
 
   // BUTTON STYLE
   const btnStyle = {
-    padding: "12px",
+    padding: isMobile
+      ? "10px"
+      : "12px",
+
     border: "none",
+
     borderRadius: "12px",
+
     color: "white",
+
     fontWeight: "bold",
+
     cursor: "pointer",
-    fontSize: "16px",
+
+    fontSize: isMobile
+      ? "14px"
+      : "16px",
   };
 
   // CARD STYLE
   const cardStyle = {
     background:
       "linear-gradient(145deg,#1e293b,#0f172a)",
-    padding: "20px",
+
+    padding: isMobile
+      ? "15px"
+      : "20px",
+
     borderRadius: "20px",
+
     boxShadow:
       "0px 0px 20px rgba(0,0,0,0.3)",
+
     flex: "1",
-    minWidth: "300px",
+
+    minWidth: isMobile
+      ? "100%"
+      : "300px",
   };
 
   // EXTRA OPTIONS
   const extraOptions = [
     { label: "0", value: 0 },
+
     { label: "1", value: 1 },
+
     { label: "1+1", value: 2 },
+
     { label: "1+2", value: 3 },
+
     { label: "1+3", value: 4 },
+
     { label: "1+4", value: 5 },
+
     { label: "1+6", value: 7 },
   ];
 
@@ -240,24 +269,36 @@ function App() {
     <div
       style={{
         minHeight: "100vh",
+
         background:
           "linear-gradient(to right,#020617,#0f172a)",
-        padding: "20px",
+
+        padding: isMobile
+          ? "10px"
+          : "20px",
+
         color: "white",
+
         fontFamily: "Arial",
+
+        overflowX: "hidden",
       }}
     >
       {/* HEADER */}
       <div
         style={{
           textAlign: "center",
+
           marginBottom: "30px",
         }}
       >
         <h1
           style={{
             color: "#38bdf8",
-            fontSize: "40px",
+
+            fontSize: isMobile
+              ? "30px"
+              : "40px",
           }}
         >
           Cricket Scoreboard
@@ -275,9 +316,13 @@ function App() {
       {/* TOP SECTION */}
       <div
         style={{
-          display: "flex",
-          gap: "20px",
-          flexWrap: "wrap",
+          display: isMobile
+            ? "block"
+            : "flex",
+
+          gap: isMobile
+            ? "10px"
+            : "20px",
         }}
       >
         {/* SCORECARD */}
@@ -292,7 +337,9 @@ function App() {
 
           <h1
             style={{
-              fontSize: "55px",
+              fontSize: isMobile
+                ? "38px"
+                : "55px",
             }}
           >
             {currentTeam.score}/
@@ -302,6 +349,7 @@ function App() {
           <div
             style={{
               marginTop: "20px",
+
               lineHeight: "2",
             }}
           >
@@ -346,7 +394,15 @@ function App() {
         </div>
 
         {/* CONTROLS */}
-        <div style={cardStyle}>
+        <div
+          style={{
+            ...cardStyle,
+
+            marginTop: isMobile
+              ? "15px"
+              : "0px",
+          }}
+        >
           <h2
             style={{
               color: "#38bdf8",
@@ -358,9 +414,14 @@ function App() {
           <div
             style={{
               display: "grid",
+
               gridTemplateColumns:
-                "repeat(auto-fit,minmax(90px,1fr))",
+                isMobile
+                  ? "repeat(2,1fr)"
+                  : "repeat(auto-fit,minmax(90px,1fr))",
+
               gap: "12px",
+
               marginTop: "20px",
             }}
           >
@@ -368,6 +429,7 @@ function App() {
             <button
               style={{
                 ...btnStyle,
+
                 background: "#64748b",
               }}
               onClick={() =>
@@ -381,6 +443,7 @@ function App() {
             <button
               style={{
                 ...btnStyle,
+
                 background: "#475569",
               }}
               onClick={() =>
@@ -397,6 +460,7 @@ function App() {
                   key={run}
                   style={{
                     ...btnStyle,
+
                     background:
                       "#22c55e",
                   }}
@@ -416,10 +480,12 @@ function App() {
             <button
               style={{
                 ...btnStyle,
+
                 background: "orange",
               }}
               onClick={() => {
                 setExtraType("WD");
+
                 setShowExtraPopup(
                   true
                 );
@@ -432,10 +498,12 @@ function App() {
             <button
               style={{
                 ...btnStyle,
+
                 background: "#3b82f6",
               }}
               onClick={() => {
                 setExtraType("NB");
+
                 setShowExtraPopup(
                   true
                 );
@@ -448,6 +516,7 @@ function App() {
             <button
               style={{
                 ...btnStyle,
+
                 background: "red",
               }}
               onClick={() =>
@@ -462,15 +531,20 @@ function App() {
           <div
             style={{
               display: "flex",
+
               gap: "15px",
+
               marginTop: "25px",
+
               flexWrap: "wrap",
             }}
           >
             <button
               style={{
                 ...btnStyle,
+
                 background: "purple",
+
                 flex: 1,
               }}
               onClick={nextInnings}
@@ -481,7 +555,9 @@ function App() {
             <button
               style={{
                 ...btnStyle,
+
                 background: "#ef4444",
+
                 flex: 1,
               }}
               onClick={resetMatch}
@@ -496,6 +572,7 @@ function App() {
       <div
         style={{
           marginTop: "30px",
+
           ...cardStyle,
         }}
       >
@@ -522,8 +599,11 @@ function App() {
               <div
                 style={{
                   display: "flex",
+
                   gap: "10px",
+
                   flexWrap: "wrap",
+
                   marginTop: "10px",
                 }}
               >
@@ -532,17 +612,30 @@ function App() {
                     <div
                       key={ballIndex}
                       style={{
-                        minWidth: "60px",
-                        height: "60px",
+                        minWidth:
+                          isMobile
+                            ? "45px"
+                            : "60px",
+
+                        height:
+                          isMobile
+                            ? "45px"
+                            : "60px",
+
                         borderRadius:
                           "50%",
+
                         display: "flex",
+
                         justifyContent:
                           "center",
+
                         alignItems:
                           "center",
+
                         fontWeight:
                           "bold",
+
                         background:
                           ball === "W"
                             ? "#ef4444"
@@ -555,6 +648,7 @@ function App() {
                               )
                             ? "#3b82f6"
                             : "#22c55e",
+
                         padding: "5px",
                       }}
                     >
@@ -568,79 +662,46 @@ function App() {
         )}
       </div>
 
-      {/* TEAM SUMMARY */}
-      <div
-        style={{
-          display: "flex",
-          gap: "20px",
-          flexWrap: "wrap",
-          marginTop: "30px",
-        }}
-      >
-        <div style={cardStyle}>
-          <h2>{team1.name}</h2>
-
-          <h1>
-            {team1.score}/
-            {team1.wickets}
-          </h1>
-
-          <h3>
-            Overs:{" "}
-            {calculateOvers(
-              team1.balls
-            )}
-          </h3>
-
-          <h3>
-            Extras: {team1.extras}
-          </h3>
-        </div>
-
-        <div style={cardStyle}>
-          <h2>{team2.name}</h2>
-
-          <h1>
-            {team2.score}/
-            {team2.wickets}
-          </h1>
-
-          <h3>
-            Overs:{" "}
-            {calculateOvers(
-              team2.balls
-            )}
-          </h3>
-
-          <h3>
-            Extras: {team2.extras}
-          </h3>
-        </div>
-      </div>
-
       {/* EXTRA POPUP */}
       {showExtraPopup && (
         <div
           style={{
             position: "fixed",
+
             top: 0,
+
             left: 0,
+
             width: "100%",
+
             height: "100%",
+
             background:
               "rgba(0,0,0,0.7)",
+
             display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+
+            justifyContent:
+              "center",
+
+            alignItems:
+              "center",
+
             zIndex: 999,
           }}
         >
           <div
             style={{
               background: "#1e293b",
+
               padding: "30px",
+
               borderRadius: "20px",
-              width: "330px",
+
+              width: isMobile
+                ? "90%"
+                : "330px",
+
               textAlign: "center",
             }}
           >
@@ -661,9 +722,12 @@ function App() {
             <div
               style={{
                 display: "grid",
+
                 gridTemplateColumns:
                   "repeat(3,1fr)",
+
                 gap: "10px",
+
                 marginTop: "20px",
               }}
             >
@@ -673,14 +737,20 @@ function App() {
                     key={item.value}
                     style={{
                       padding: "12px",
+
                       border: "none",
+
                       borderRadius:
                         "10px",
+
                       background:
                         "#38bdf8",
+
                       color: "white",
+
                       fontWeight:
                         "bold",
+
                       cursor: "pointer",
                     }}
                     onClick={() => {
@@ -703,12 +773,19 @@ function App() {
             <button
               style={{
                 marginTop: "20px",
+
                 padding: "12px",
+
                 width: "100%",
+
                 border: "none",
+
                 borderRadius: "10px",
+
                 background: "red",
+
                 color: "white",
+
                 cursor: "pointer",
               }}
               onClick={() =>
